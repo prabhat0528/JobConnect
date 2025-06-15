@@ -13,13 +13,13 @@ const client = axios.create({
 function SearchJob() {
   const [jobs, setJobs] = useState([]);
   const [title, setTitle] = useState('');
-  const [location, setLocation] = useState('');
-  const [skills, setSkills] = useState('');
+  const [workMode, setworkMode] = useState('');
+
 
   const handleSearch = async () => {
     try {
       const res = await client.get('/search', {
-        params: { title, location, skills }
+        params: { title, workMode }
       });
       setJobs(res.data);
     } catch (err) {
@@ -38,20 +38,16 @@ function SearchJob() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <input
-          type="text"
-          placeholder="Location"
-          className="border p-2 rounded"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Skills"
-          className="border p-2 rounded"
-          value={skills}
-          onChange={(e) => setSkills(e.target.value)}
-        />
+       <select
+        className="border p-2 rounded"
+        value={workMode}
+        onChange={(e) => setworkMode(e.target.value)}
+      >
+        <option value="">Select Work Mode</option>
+        <option value="remote">Remote</option>
+        <option value="on-site">On-site</option>
+      </select>
+
         <button
           onClick={handleSearch}
           className="bg-blue-600 text-white px-4 py-2 rounded"

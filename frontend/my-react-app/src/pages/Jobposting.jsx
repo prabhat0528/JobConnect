@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -8,7 +9,9 @@ const client = axios.create({
     withCredentials: true,
 });
 
+
 export default function Jobposting() {
+  const navigate = useNavigate();
   const[form,setForm] =useState({
     title: "",
     company: "",
@@ -44,6 +47,8 @@ export default function Jobposting() {
             location: "",
             salary: "",
         })
+
+         navigate("/");
 
     }catch(err){
         setMsg("❌ " + (err.response?.data?.message || "Error posting job"));

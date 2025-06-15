@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const JobPosting = require("./jobDescription");
 
 const UserSchema = new mongoose.Schema({
     username: {
@@ -31,6 +32,12 @@ const UserSchema = new mongoose.Schema({
         filename: String,
 
     },
+    jobPosted:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref: "Job",
+        }
+    ],
     about: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "About", 
