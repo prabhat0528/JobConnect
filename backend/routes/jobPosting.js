@@ -2,6 +2,7 @@ const express=require("express");
 const router = express.Router();
 const Job = require("../models/jobDescription.js");
 const User = require("../models/user.js");
+const { uploadResume } = require("../cloudConfig.js");
 
 
 // jobPosting.js
@@ -74,6 +75,49 @@ router.post("/post-job", async (req, res) => {
     res.status(500).json({ message: "Server Error", error });
   }
 });
+
+router.post("/apply/:jobId", uploadResume.single("resume"), async (req, res) => {
+  if (!req.session.user) {
+    req.flash("error", "Please login to apply");
+    return res.redirect("/");
+  }
+
+  const { jobId } = req.params;
+  const { name, email, phone } = req.body;
+  const resumeUrl = req.file?.path;
+
+  try {
+    const user = await User.findOne({ email: req.session.user.email });
+
+    if (!user) {
+      req.flash("error", "User not found");
+      return res.redirect("/");
+    }
+
+    const job = await Job.findById(jobId);
+    if (!job) {
+      req.flash("error", "Job not found");
+      return res.redirect("/");
+    }
+
+    // Pushing the  applicant details
+    job.applicants.push({
+      developer: user._id,
+      resumeUrl,
+      appliedAt: new Date(),
+    });
+
+    await job.save();
+
+    req.flash("success", "Successfully applied to the job!");
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error applying to job:", error);
+    req.flash("error", "Something went wrong while applying.");
+    res.redirect("/");
+  }
+});
+
 
 
 module.exports = router;

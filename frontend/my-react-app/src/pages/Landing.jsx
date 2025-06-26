@@ -31,6 +31,12 @@ function Landing() {
                   />
                 </a>
                 <a href="/logout" className="text-white">Logout</a>
+                <a
+                  href={`/user/${userData._id}`}
+                  className="px-4 py-1 text-sm font-medium text-white border border-white rounded-full hover:bg-white hover:text-blue-700 transition duration-200"
+                >
+                  See Posted Jobs
+                </a>
               </div>
             ) : (
               // Show these if no userData (user not logged in)
@@ -68,6 +74,9 @@ function Landing() {
               <>
                 <a href="/profile" className="block hover:text-gray-200 font-medium">Profile</a>
                 <a href="/logout" className="block hover:text-gray-200 font-medium">Logout</a>
+               <a  href={`/user/${userData._id}`} className="block hover:text-gray-200 font-medium">See Posted Jobs</a>
+               <a href="/logout" className="block hover:text-gray-200 font-medium"></a>
+
               </>
             ) : (
               <>
@@ -95,22 +104,30 @@ function Landing() {
           </p>
           {userData && (
             <div className="flex justify-center gap-4 flex-wrap">
-              {userData.role === 'developer' && (
+             
                 <a
                   href="/search"
                   className="bg-blue-600 text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-blue-700 transition-colors duration-200"
                 >
                   Search for Jobs
                 </a>
-              )}
-              {userData.role === 'recruiter' && (
+              
+              
                 <a
                   href="/post-job"
                   className="border-2 border-white text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200"
                 >
                   Post a Job
                 </a>
-              )}
+
+                
+                <a
+                  href="/check-resume-score"
+                  className="border-2 border-white text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200"
+                >
+                  Check Resume Score
+                </a>
+              
             </div>
           )}
         </div>

@@ -177,6 +177,23 @@ router.post("/editProfile", uploadProfilePhoto.single("profilePhoto"), async (re
 });
 
 
+router.get("/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await User.findById(userId).populate("jobPosted");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user.jobPosted);
+  } catch (error) {
+    console.error("Error fetching user's posted jobs:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
 
 
 // Logout

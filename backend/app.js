@@ -7,6 +7,7 @@ const cors = require("cors");
 const session = require("express-session");
 const jobPostingRouter = require("./routes/jobPosting.js");
 const MongoStore = require('connect-mongo');
+const flash = require("connect-flash");
 
 const app = express();
 
@@ -32,11 +33,19 @@ const sessionOptions = {
   },
 };
 
+
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
 
 app.use(session(sessionOptions));
+
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 
 app.use("/api/user", userRouter);

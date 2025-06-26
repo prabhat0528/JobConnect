@@ -1,6 +1,7 @@
 // SearchJob.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 const client = axios.create({
@@ -62,7 +63,13 @@ function SearchJob() {
             <h3 className="text-xl font-bold">{job.title}</h3>
             <p className="text-gray-700">{job.company} - {job.location}</p>
             <p className="text-sm mt-2">{job.description}</p>
-            <p className="text-sm mt-2 text-blue-600">Skills: {job.requiredSkills}</p>
+            <p className="text-sm mt-2 text-blue-600">Required Skills: {job.requiredSkills}</p>
+            <p className="text-sm mt-2 text-blue-600">Stipend:  &nbsp; <b>{job.salary}</b></p>
+           <Link to={`/apply/${job._id}`}>
+              <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300">
+                Apply
+              </button>
+            </Link>
           </div>
         ))}
       </div>

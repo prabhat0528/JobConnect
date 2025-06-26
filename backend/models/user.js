@@ -41,7 +41,12 @@ const UserSchema = new mongoose.Schema({
     about: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "About", 
-    }
+    },
+    resumeUrl: {
+    type: String,
+    required: true,
+    },
+    
     
 });
 

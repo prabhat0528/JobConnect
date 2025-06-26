@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const User = require("./user.js");
 
 
+
 const applicantSchema = new mongoose.Schema({
   developer: {
     type: mongoose.Schema.Types.ObjectId,

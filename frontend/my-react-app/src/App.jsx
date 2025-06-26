@@ -7,6 +7,9 @@ import Jobposting from './pages/Jobposting.jsx';
 import Profile from './pages/Profile.jsx';
 import EditProfile from './pages/EditProfile.jsx';
 import SearchJob from './pages/SearchJob.jsx';
+import ApplyJob from './pages/ApplyJob.jsx';
+import MyPostedJobs from './pages/MyPostedJobs.jsx';
+import ResumeAnalyzer from './pages/ResumeAnalyzer.jsx';
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/editProfile" element={<EditProfile/>}/>
         <Route path = "/search" element = {<SearchJob/>}/>
+        <Route path="/apply/:jobId" element={<ApplyJob />} />
+        <Route path="/user/:userId" element={<MyPostedJobs />} />
+        <Route path = "/check-resume-score" element={<ResumeAnalyzer/>}/>
       </Routes>
       </AuthProvider>
     </Router>
