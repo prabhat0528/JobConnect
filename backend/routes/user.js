@@ -2,11 +2,11 @@ const express = require("express");
 const httpStatus = require("http-status");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
-const { uploadProfilePhoto } = require("../cloudConfig.js"); 
+const { uploadProfilePhoto } = require("../cloudConfig.js"); // ✅ updated import
 const router = express.Router();
 const About = require("../models/about");
 
-// Login
+// ------------------- LOGIN -------------------
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
@@ -46,7 +46,7 @@ router.post("/login", async (req, res) => {
     }
 });
 
-// Register
+// ------------------- REGISTER -------------------
 router.post("/register", uploadProfilePhoto.single("profilePhoto"), async (req, res) => {
     const { name, username, email, password, role } = req.body;
 
@@ -94,7 +94,7 @@ router.post("/register", uploadProfilePhoto.single("profilePhoto"), async (req, 
     }
 });
 
-// Fetch session user
+// ------------------- SESSION USER -------------------
 router.get("/session", async (req, res) => {
     if (req.session && req.session.user) {
         try {
@@ -121,7 +121,7 @@ router.get("/session", async (req, res) => {
     }
 });
 
-//Edit Profile
+// ------------------- EDIT PROFILE -------------------
 router.post("/editProfile", uploadProfilePhoto.single("profilePhoto"), async (req, res) => {
     if (!req.session.user) {
         return res.status(401).json({ message: "Not authenticated" });
@@ -141,7 +141,6 @@ router.post("/editProfile", uploadProfilePhoto.single("profilePhoto"), async (re
         if (username) user.username = username;
         if (email) user.email = email;
 
-       
         if (req.file) {
             user.profilePhoto = {
                 url: req.file.path,
@@ -149,7 +148,6 @@ router.post("/editProfile", uploadProfilePhoto.single("profilePhoto"), async (re
             };
         }
 
-        
         if (description && skillSet && experience) {
             if (user.about) {
                 user.about.description = description;
@@ -176,27 +174,24 @@ router.post("/editProfile", uploadProfilePhoto.single("profilePhoto"), async (re
     }
 });
 
-
+// ------------------- GET USER POSTED JOBS -------------------
 router.get("/:userId", async (req, res) => {
-  const { userId } = req.params;
+    const { userId } = req.params;
 
-  try {
-    const user = await User.findById(userId).populate("jobPosted");
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    try {
+        const user = await User.findById(userId).populate("jobPosted");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json(user.jobPosted);
+    } catch (error) {
+        console.error("Error fetching user's posted jobs:", error);
+        res.status(500).json({ message: "Server error" });
     }
-
-    res.status(200).json(user.jobPosted);
-  } catch (error) {
-    console.error("Error fetching user's posted jobs:", error);
-    res.status(500).json({ message: "Server error" });
-  }
 });
 
-
-
-
-// Logout
+// ------------------- LOGOUT -------------------
 router.post("/logout", (req, res) => {
     req.session.destroy(() => {
         res.json({ message: "Logged out" });

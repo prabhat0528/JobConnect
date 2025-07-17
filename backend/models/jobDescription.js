@@ -9,9 +9,12 @@ const applicantSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  resumeUrl: {
+ resumeUrl: {
     type: String,
-    required: true,
+    required: function () {
+      // required only if developer is set (applicant exists)
+      return this.developer != null;
+    },
   },
   appliedAt: {
     type: Date,
@@ -65,6 +68,7 @@ const jobSchema = new mongoose.Schema({
   applicants: {
     type: [applicantSchema],
     default: [],
+    required: false,
   },
 
   postedAt:{

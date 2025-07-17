@@ -10,16 +10,21 @@ import SearchJob from './pages/SearchJob.jsx';
 import ApplyJob from './pages/ApplyJob.jsx';
 import MyPostedJobs from './pages/MyPostedJobs.jsx';
 import ResumeAnalyzer from './pages/ResumeAnalyzer.jsx';
+import Navbar from './pages/Navbar.jsx';
+import AnalyzeCandidates from './pages/AnalyzedCandidates.jsx';
 
 function App() {
   return (
     <Router>
+      
       <AuthProvider>
+        <Navbar/>
+       
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Authentication />} />
         <Route path="/register" element={<Authentication />} />
-        <Route path="/logout" element={<Authentication/>}/>
+        {/* <Route path="/logout" element={<Authentication/>}/> */}
         <Route path="/post-job" element={<Jobposting/>}/>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/editProfile" element={<EditProfile/>}/>
@@ -27,6 +32,7 @@ function App() {
         <Route path="/apply/:jobId" element={<ApplyJob />} />
         <Route path="/user/:userId" element={<MyPostedJobs />} />
         <Route path = "/check-resume-score" element={<ResumeAnalyzer/>}/>
+        <Route path = "/analyze/:jobId" element = {<AnalyzeCandidates/>}/>
       </Routes>
       </AuthProvider>
     </Router>

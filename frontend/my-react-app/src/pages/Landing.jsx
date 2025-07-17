@@ -3,92 +3,9 @@ import { AuthContext } from '../context/Authcontext';
 
 function Landing() {
   const { userData } = useContext(AuthContext);
-  console.log(userData);
 
   return (
     <div className="w-full min-h-screen bg-gray-100">
-      {/* Navbar */}
-      <nav className="bg-gradient-to-r from-blue-600 to-blue-800 shadow-md sticky top-0 z-50 w-full">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-          <div className="flex justify-between h-16 mx-0 gap-2 items-center">
-            {/* Logo */}
-            <div className="flex items-center space-x-2">
-              <span className="text-4xl text-white">
-                <i className="fas fa-briefcase"></i>
-              </span>
-              <span className="text-2xl font-bold text-white tracking-wide">JobConnect</span>
-            </div>
-
-            {userData ? (
-              // Show these if userData exists (user is logged in)
-              <div className="hidden sm:flex items-center space-x-6">
-                {/* Profile Photo */}
-                <a href="/profile">
-                  <img
-                    src={userData.profilePhoto.url || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwTjn7ADTGtefL4Im3WluJ6ersByvJf8k7-Q&s"}
-                    alt="Profile"
-                    className="w-12 h-12 rounded-full object-cover "
-                  />
-                </a>
-                <a href="/logout" className="text-white">Logout</a>
-                <a
-                  href={`/user/${userData._id}`}
-                  className="px-4 py-1 text-sm font-medium text-white border border-white rounded-full hover:bg-white hover:text-blue-700 transition duration-200"
-                >
-                  See Posted Jobs
-                </a>
-              </div>
-            ) : (
-              // Show these if no userData (user not logged in)
-              <div className="hidden sm:flex items-center space-x-6">
-                <a href="/login" className="px-4 py-1 text-sm font-medium text-white border border-white rounded-full hover:bg-white hover:text-blue-700 transition duration-200">Login</a>
-                <a href="/register" className="px-4 py-1 text-sm font-medium text-blue-600 bg-white rounded-full hover:bg-gray-200 transition duration-200">Sign Up</a>
-              </div>
-            )}
-
-            {/* Mobile Menu Button */}
-            <div className="sm:hidden flex items-center">
-              <button
-                type="button"
-                className="text-white hover:text-gray-200 focus:outline-none"
-                onClick={() => {
-                  const menu = document.getElementById('mobile-menu');
-                  menu.classList.toggle('hidden');
-                }}
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Nav Links */}
-        <div className="sm:hidden hidden bg-blue-700" id="mobile-menu">
-          <div className="px-4 pt-4 pb-2 space-y-2 text-white">
-            <a href="/" className="block hover:text-gray-200 font-medium">Home</a>
-            <a href="/search" className="block hover:text-gray-200 font-medium">Search Job</a>
-            <a href="/post-job" className="block hover:text-gray-200 font-medium">Post a Job</a>
-            {userData ? (
-              <>
-                <a href="/profile" className="block hover:text-gray-200 font-medium">Profile</a>
-                <a href="/logout" className="block hover:text-gray-200 font-medium">Logout</a>
-               <a  href={`/user/${userData._id}`} className="block hover:text-gray-200 font-medium">See Posted Jobs</a>
-               <a href="/logout" className="block hover:text-gray-200 font-medium"></a>
-
-              </>
-            ) : (
-              <>
-                <a href="/login" className="block border-t border-gray-400 pt-2 font-medium">Login</a>
-                <a href="/register" className="block bg-white text-blue-700 px-4 py-2 rounded-md text-center font-medium">Sign Up</a>
-              </>
-            )}
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
       <section
         className="relative bg-cover bg-center h-[90vh] flex items-center"
         style={{
@@ -104,36 +21,29 @@ function Landing() {
           </p>
           {userData && (
             <div className="flex justify-center gap-4 flex-wrap">
-             
-                <a
-                  href="/search"
-                  className="bg-blue-600 text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-blue-700 transition-colors duration-200"
-                >
-                  Search for Jobs
-                </a>
-              
-              
-                <a
-                  href="/post-job"
-                  className="border-2 border-white text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200"
-                >
-                  Post a Job
-                </a>
-
-                
-                <a
-                  href="/check-resume-score"
-                  className="border-2 border-white text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200"
-                >
-                  Check Resume Score
-                </a>
-              
+              <a
+                href="/search"
+                className="bg-blue-600 text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-blue-700 transition-colors duration-200"
+              >
+                Search for Jobs
+              </a>
+              <a
+                href="/post-job"
+                className="border-2 border-white text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200"
+              >
+                Post a Job
+              </a>
+              <a
+                href="/check-resume-score"
+                className="border-2 border-white text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200"
+              >
+                Check Resume Score
+              </a>
             </div>
           )}
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="py-16 bg-gray-100">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">Why Choose JobConnect?</h2>
@@ -157,7 +67,38 @@ function Landing() {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* ⚠️ Warning Section */}
+      <section className="bg-yellow-100 border-t border-yellow-300 py-8">
+  <div className="max-w-5xl mx-auto px-6 text-center">
+    <div className="flex items-center justify-center gap-2 mb-4">
+      <span className="text-yellow-700 text-2xl">⚠️</span>
+      <h2 className="text-2xl font-bold text-yellow-800">Important Notice</h2>
+    </div>
+    <p className="text-yellow-800 text-lg font-medium">
+      We <strong>do not charge any cost</strong> for any job or internship. If anyone asks you for payment,
+      please reach out to us immediately:
+    </p>
+    <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-6 text-yellow-900 text-base font-medium">
+      <div className="flex items-center gap-2">
+        <i className="fas fa-envelope text-blue-700"></i>
+        <a
+          href="mailto:jobconnectadmin@gmail.com"
+          className="underline hover:text-blue-900"
+        >
+          jobconnectadmin@gmail.com
+        </a>
+      </div>
+      <div className="flex items-center gap-2">
+        <i className="fas fa-phone-alt text-blue-700"></i>
+        <a href="tel:9876543210" className="underline hover:text-blue-900">
+          9876543210
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
       <footer className="bg-gray-800 text-white py-8">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 text-center">
           <p className="text-sm">&copy; 2025 JobConnect. All rights reserved.</p>

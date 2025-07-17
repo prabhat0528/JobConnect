@@ -10,7 +10,7 @@ const client = axios.create({
 });
 
 
-export default function Jobposting() {
+export default function Jobposting() {8
   const navigate = useNavigate();
   const[form,setForm] =useState({
     title: "",

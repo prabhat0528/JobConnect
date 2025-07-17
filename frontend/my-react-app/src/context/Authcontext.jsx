@@ -64,6 +64,11 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+//     const logout = () => {
+//     localStorage.removeItem('user');
+//     setUserData(null);
+//   };
+
    
     useEffect(() => {
         const fetchUserSession = async () => {
