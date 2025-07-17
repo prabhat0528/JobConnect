@@ -31,7 +31,7 @@ function ApplyJob() {
     formData.append("resume", form.resume);
 
     try {
-      await axios.post(`http://localhost:8080/api/jobPosting/apply/${jobId}`, formData, {
+      await axios.post(`https://jobconnect-backend.onrender.com/api/jobPosting/apply/${jobId}`, formData, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });

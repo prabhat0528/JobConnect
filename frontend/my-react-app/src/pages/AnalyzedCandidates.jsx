@@ -15,7 +15,7 @@ function AnalyzeCandidates() {
     const analyze = async () => {
       try {
         const { data: job } = await axios.get(
-          `http://localhost:8080/api/jobPosting/${jobId}`
+          `https://jobconnect-backend.onrender.com/api/jobPosting/${jobId}`
         );
         const jobDesc = job.description;
         const applicants = job.applicants;
@@ -49,7 +49,7 @@ function AnalyzeCandidates() {
               formData.append("job_description", jobDesc);
 
               const { data } = await axios.post(
-                "http://localhost:5000/analyze",
+                "https://jobconnect-backend.onrender.com/analyze",
                 formData,
                 {
                   headers: { "Content-Type": "multipart/form-data" },
@@ -95,7 +95,7 @@ function AnalyzeCandidates() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/jobPosting/sendBulkEmails",
+        "https://jobconnect-backend.onrender.com/api/jobPosting/sendBulkEmails",
         {
           candidates: analyzedData.map((candidate) => ({
             name: candidate.Name,

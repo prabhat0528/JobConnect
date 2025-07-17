@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 
 const client = axios.create({
-    baseURL: "http://localhost:8080/api/jobPosting",
+    baseURL: "https://jobconnect-backend.onrender.com/api/jobPosting",
     withCredentials: true,
 });
 
