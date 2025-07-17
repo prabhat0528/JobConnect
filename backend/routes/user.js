@@ -1,8 +1,8 @@
 const express = require("express");
 const httpStatus = require("http-status");
 const User = require("../models/user");
-const bcrypt = require("bcrypt");
-const { uploadProfilePhoto } = require("../cloudConfig.js"); // ✅ updated import
+const bcrypt = require('bcryptjs');
+const { uploadProfilePhoto } = require("../cloudConfig.js"); 
 const router = express.Router();
 const About = require("../models/about");
 
