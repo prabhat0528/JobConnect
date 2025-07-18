@@ -14,7 +14,7 @@ function MyPostedJobs() {
     const fetchPostedJobs = async () => {
       try {
         const response = await axios.get(
-          `https://jobconnect-backend.onrender.com/api/user/${userData._id}`
+          `https://jobconnect-backend.onrender.com/api/user/${userData._id}`,{ withCredentials: true }
         );
         setPostedJobs(response.data);
       } catch (err) {
@@ -35,7 +35,7 @@ function MyPostedJobs() {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`https://jobconnect-backend.onrender.com/api/jobPosting/${jobId}`);
+      await axios.delete(`https://jobconnect-backend.onrender.com/api/jobPosting/${jobId}`,{ withCredentials: true });
       setPostedJobs((prevJobs) => prevJobs.filter((job) => job._id !== jobId));
     } catch (err) {
       alert("Failed to delete the job. Please try again.");

@@ -54,7 +54,7 @@ export default function EditProfile() {
         }
 
         try {
-            const response = await axios.post("https://jobconnect-backend.onrender.com/api/user/editProfile", formData, {
+            const response = await axios.post("https://jobconnect-backend.onrender.com/api/user/editProfile", { withCredentials: true },formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
