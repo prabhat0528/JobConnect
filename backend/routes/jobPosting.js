@@ -2,12 +2,11 @@ const express = require("express");
 const router = express.Router();
 const Job = require("../models/jobDescription.js");
 const User = require("../models/user.js");
-const { uploadResume } = require("../cloudConfig.js"); // ✅ Updated import
+const { uploadResume } = require("../cloudConfig.js");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 dotenv.config();
 
-// Post job route (unchanged)
 router.post("/post-job", async (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ message: "Please login to post a job" });

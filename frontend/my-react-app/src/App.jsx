@@ -24,7 +24,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Authentication />} />
         <Route path="/register" element={<Authentication />} />
-        {/* <Route path="/logout" element={<Authentication/>}/> */}
+       
         <Route path="/post-job" element={<Jobposting/>}/>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/editProfile" element={<EditProfile/>}/>
