@@ -49,7 +49,7 @@ function AnalyzeCandidates() {
               formData.append("job_description", jobDesc);
 
               const { data } = await axios.post(
-                "https://jobconnect-backend.onrender.com/analyze",{ withCredentials: true },
+                "https://jobconnect-python.onrender.com/analyze",{ withCredentials: true },
                 formData,
                 {
                   headers: { "Content-Type": "multipart/form-data" },

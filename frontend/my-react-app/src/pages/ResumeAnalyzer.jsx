@@ -19,7 +19,7 @@ function ResumeAnalyzer() {
 
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:5000/evaluate', formData);
+      const res = await axios.post('https://jobconnect-python.onrender.com/evaluate', formData);
       setResult(res.data.result || res.data);
     } catch (err) {
       console.error(err);
