@@ -13,7 +13,13 @@ load_dotenv()
 api_key = os.getenv("GEMINI_KEY")
 
 app = Flask(__name__)
-CORS(app)
+
+#  CORS setup
+CORS(
+    app,
+    origins=["https://jobconnect-hub.onrender.com"],  
+    supports_credentials=True,                        
+)
 
 # Initialize Gemini LLM
 llm = ChatGoogleGenerativeAI(model='gemini-2.0-flash-exp', google_api_key=api_key)
@@ -79,8 +85,12 @@ def extract_text_from_pdf(file):
 @app.route('/evaluate', methods=['POST'])
 def evaluate_resume():
     try:
-        job_description = request.form['job_description']
-        resume_file = request.files['resume']
+        job_description = request.form.get('job_description')
+        resume_file = request.files.get('resume')
+        
+        if not resume_file or not job_description:
+            return jsonify({"error": "Missing resume file or job description"}), 400
+
         resume_text = extract_text_from_pdf(resume_file)
 
         if not resume_text.strip():
@@ -117,6 +127,9 @@ def analyze_resume():
         else:
             return jsonify({"error": "Unsupported file format"}), 400
 
+        if not extracted_text.strip():
+            return jsonify({"error": "Resume contains no readable text"}), 400
+
         result = analyze_chain.invoke({
             "extracted_text": extracted_text,
             "job_description": job_description
@@ -129,4 +142,4 @@ def analyze_resume():
         return jsonify({"error": "Internal server error"}), 500
 
 if __name__ == '__main__':
-    app.run(port=5000, host = '0.0.0.0',debug=True)
+    app.run(port=5000, host='0.0.0.0', debug=True)
