@@ -94,20 +94,23 @@ function AnalyzeCandidates() {
     setEmailSending(true);
     setEmailStatusMessage("");
 
-    try {
-      const response = await axios.post(
-        "https://jobconnect-backend.onrender.com/api/jobPosting/sendBulkEmails",{ withCredentials: true },
-        {
-          candidates: analyzedData.map((candidate) => ({
-            name: candidate.Name,
-            email: candidate.Email,
-            score: candidate.matching_percent || candidate.score || 0,
-          })),
-        }
-      );
+   try {
+  const response = await axios.post(
+    "https://jobconnect-backend.onrender.com/api/jobPosting/sendBulkEmails",
+    {
+      candidates: analyzedData.map((candidate) => ({
+        name: candidate.Name,
+        email: candidate.Email,
+        score: candidate.matching_percent || candidate.score || 0,
+      })),
+    },
+    {
+      withCredentials: true, 
+    }
+  );
 
-      setEmailStatusMessage(response.data.message || "Emails sent.");
-    } catch (err) {
+  setEmailStatusMessage(response.data.message || "Emails sent.");
+} catch (err) {
       console.error("Error sending emails:", err.message);
       setEmailStatusMessage("❌ Failed to send emails.");
     }
