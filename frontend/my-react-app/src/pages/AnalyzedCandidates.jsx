@@ -15,10 +15,12 @@ function AnalyzeCandidates() {
     const analyze = async () => {
       try {
         const { data: job } = await axios.get(
-          `https://jobconnect-backend.onrender.com/api/jobPosting/${jobId}`,{ withCredentials: true }
+          `https://jobconnect-backend.onrender.com/api/jobPosting/${jobId}`,
+          { withCredentials: true }
         );
+
         const jobDesc = job.description;
-        const applicants = job.applicants;
+        const applicants = job.applicants || [];
 
         const results = await Promise.all(
           applicants.map(async (applicant, i) => {
@@ -57,12 +59,10 @@ function AnalyzeCandidates() {
                 }
               );
 
-              const score = data.matching_percent || 0;
-
               return {
                 ...data,
                 resumeLink: resumeUrl,
-                score,
+                score: data.matching_percent || 0,
               };
             } catch (err) {
               console.error("Resume analysis failed:", err.message);
@@ -94,24 +94,34 @@ function AnalyzeCandidates() {
     setEmailSending(true);
     setEmailStatusMessage("");
 
-   try {
-  const response = await axios.post(
-    "https://jobconnect-backend.onrender.com/api/jobPosting/sendBulkEmails",
-    {
-      candidates: analyzedData.map((candidate) => ({
-        name: candidate.Name,
-        email: candidate.Email,
-        score: candidate.matching_percent || candidate.score || 0,
-      })),
-    },
-    {
-      withCredentials: true, 
-    }
-  );
+    try {
+      // Filter only valid emails
+      const validCandidates = analyzedData
+        .filter(c => c.Email && c.Email !== "N/A")
+        .map(c => ({
+          name: c.Name,
+          email: c.Email,
+          score: c.matching_percent || c.score || 0,
+        }));
 
-  setEmailStatusMessage(response.data.message || "Emails sent.");
-} catch (err) {
-      console.error("Error sending emails:", err.message);
+      if (validCandidates.length === 0) {
+        setEmailStatusMessage("No valid emails to send.");
+        setEmailSending(false);
+        return;
+      }
+
+      const response = await axios.post(
+        "https://jobconnect-backend.onrender.com/api/jobPosting/sendBulkEmails",
+        { candidates: validCandidates },
+        { withCredentials: true }
+      );
+
+      setEmailStatusMessage(response.data.message || "Emails sent.");
+    } catch (err) {
+      console.error(
+        "Error sending emails:",
+        err.response?.data || err.message
+      );
       setEmailStatusMessage("❌ Failed to send emails.");
     }
 
@@ -138,7 +148,8 @@ function AnalyzeCandidates() {
               <strong>Email:</strong> {candidate.Email || "N/A"}
             </p>
             <p className="text-sm text-gray-600 mt-1">
-              <strong>Matching %:</strong> {candidate.matching_percent || candidate.score || 0}%
+              <strong>Matching %:</strong>{" "}
+              {candidate.matching_percent || candidate.score || 0}%
             </p>
             {candidate.resumeLink && (
               <a
@@ -151,7 +162,9 @@ function AnalyzeCandidates() {
               </a>
             )}
             {candidate.error && (
-              <p className="text-sm text-red-500 mt-2">Resume processing failed.</p>
+              <p className="text-sm text-red-500 mt-2">
+                Resume processing failed.
+              </p>
             )}
           </div>
         ))}
