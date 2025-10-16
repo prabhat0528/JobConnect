@@ -13,6 +13,7 @@ import {
     FormControl,
     InputLabel,
     Select,
+    CircularProgress,
 } from "@mui/material";
 
 function Authentication() {
@@ -23,6 +24,7 @@ function Authentication() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [profilePhoto, setProfilePhoto] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const { handleRegister, handleLogin } = useContext(AuthContext);
 
     const handleTabChange = (e, newValue) => setTab(newValue);
@@ -32,12 +34,17 @@ function Authentication() {
     };
 
     const handleAuth = async () => {
+        setIsLoading(true);
+        
         try {
             if (tab === 0) {
+                // --- Login Logic ---
                 await handleLogin(email, password);
                 showSnackbar("Login successful!", "success");
             } else {
+                // --- Signup Logic ---
                 if (!role || !name || !username || !email || !password) {
+                    setIsLoading(false); 
                     showSnackbar("Please fill all fields", "warning");
                     return;
                 }
@@ -53,7 +60,7 @@ function Authentication() {
                 }
 
                 const msg = await handleRegister(formData);
-                showSnackbar(msg || "Registration successful!", "success");
+                showSnackbar(msg || "Registration successful! You can now log in.", "success");
             }
         } catch (error) {
             console.error("Auth error:", JSON.stringify(error, null, 2));
@@ -66,6 +73,8 @@ function Authentication() {
                 errMsg = error.message || errMsg;
             }
             showSnackbar(errMsg, "error");
+        } finally {
+            setIsLoading(false); 
         }
     };
 
@@ -107,6 +116,7 @@ function Authentication() {
                     </Tabs>
 
                     {tab === 0 ? (
+                        // --- Login Form ---
                         <Box component="form" noValidate sx={{ mt: 2 }}>
                             <TextField
                                 fullWidth
@@ -130,11 +140,17 @@ function Authentication() {
                                 color="primary"
                                 sx={{ mt: 2 }}
                                 onClick={handleAuth}
+                                disabled={isLoading} 
                             >
-                                Login
+                                {isLoading ? (
+                                    <CircularProgress size={24} sx={{ color: 'white' }} /> 
+                                ) : (
+                                    'Login'
+                                )}
                             </Button>
                         </Box>
                     ) : (
+                        // --- Signup Form ---
                         <Box component="form" noValidate sx={{ mt: 2 }}>
                             <TextField
                                 fullWidth
@@ -182,7 +198,8 @@ function Authentication() {
                             <Button
                                 variant="contained"
                                 component="label"
-                                sx={{ mt: 2 }}
+                                sx={{ mt: 2, mr: 2 }} 
+                                disabled={isLoading}
                             >
                                 Upload Profile Photo
                                 <input
@@ -192,6 +209,11 @@ function Authentication() {
                                     onChange={(e) => setProfilePhoto(e.target.files[0])}
                                 />
                             </Button>
+                            {/* Display uploaded file name */}
+                            <Typography variant="body2" component="span">
+                                {profilePhoto ? profilePhoto.name : 'No file chosen'}
+                            </Typography>
+
 
                             <Button
                                 fullWidth
@@ -199,8 +221,13 @@ function Authentication() {
                                 color="primary"
                                 sx={{ mt: 2 }}
                                 onClick={handleAuth}
+                                disabled={isLoading} 
                             >
-                                Signup
+                                {isLoading ? (
+                                    <CircularProgress size={24} sx={{ color: 'white' }} /> 
+                                ) : (
+                                    'Signup'
+                                )}
                             </Button>
                         </Box>
                     )}
