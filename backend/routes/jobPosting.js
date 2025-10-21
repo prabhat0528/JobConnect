@@ -76,7 +76,7 @@ router.post('/sendBulkEmails', async (req, res) => {
   pool: true, 
   maxConnections: 5,
   rateLimit: 3,
-  connectionTimeout: 10000, 
+  connectionTimeout: 300000, 
 });
 
     for (const candidate of candidates) {
