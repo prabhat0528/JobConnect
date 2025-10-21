@@ -68,12 +68,16 @@ router.post('/sendBulkEmails', async (req, res) => {
 
   try {
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.PLATFORM_EMAIL,
-        pass: process.env.PLATFORM_PASS,
-      },
-    });
+  service: 'gmail',
+  auth: {
+    user: process.env.PLATFORM_EMAIL,
+    pass: process.env.PLATFORM_PASS,
+  },
+  pool: true, 
+  maxConnections: 5,
+  rateLimit: 3,
+  connectionTimeout: 10000, 
+});
 
     for (const candidate of candidates) {
       const { name, email, score } = candidate;
