@@ -121,7 +121,7 @@ router.get("/search", async (req, res) => {
   }
 });
 
-// ✅ Apply to job with resume upload (uses uploadResume)
+//  Apply to job with resume upload (uses uploadResume)
 router.post("/apply/:jobId", uploadResume.single("resume"), async (req, res) => {
   if (!req.session.user) {
     req.flash("error", "Please login to apply");

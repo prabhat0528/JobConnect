@@ -31,9 +31,9 @@ function SearchJob() {
             setJobs(res.data);
         } catch (err) {
             console.error("Error fetching jobs:", err);
-            // In a real app, you might set an error state here
+           
         } finally {
-            setIsLoading(false); // Stop loading
+            setIsLoading(false); 
         }
     };
 
@@ -51,7 +51,7 @@ function SearchJob() {
                 <select
                     className="border p-2 rounded"
                     value={workMode}
-                    onChange={(e) => setWorkMode(e.target.value)} // Updated setter
+                    onChange={(e) => setWorkMode(e.target.value)} 
                 >
                     <option value="">Select Work Mode</option>
                     <option value="remote">Remote</option>
@@ -60,7 +60,7 @@ function SearchJob() {
 
                 <button
                     onClick={handleSearch}
-                    disabled={isLoading} // Disable button while loading
+                    disabled={isLoading} 
                     className={`px-4 py-2 rounded text-white transition duration-300 ${
                         isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
                     }`}
