@@ -58,7 +58,6 @@ router.post("/post-job", async (req, res) => {
 
 
 
-
 router.post('/sendBulkEmails', async (req, res) => {
   const { candidates } = req.body;
 
@@ -67,17 +66,14 @@ router.post('/sendBulkEmails', async (req, res) => {
   }
 
   try {
+    const { title,  workType } = req.query;
     const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.PLATFORM_EMAIL,
-    pass: process.env.PLATFORM_PASS,
-  },
-  pool: true, 
-  maxConnections: 5,
-  rateLimit: 3,
-  connectionTimeout: 300000, 
-});
+      service: 'gmail',
+      auth: {
+        user: process.env.PLATFORM_EMAIL,
+        pass: process.env.PLATFORM_PASS,
+      },
+    });
 
     for (const candidate of candidates) {
       const { name, email, score } = candidate;
@@ -107,6 +103,7 @@ router.post('/sendBulkEmails', async (req, res) => {
     res.status(500).json({ message: "Failed to send emails", error: err.message });
   }
 });
+
 
 
 // Search route (unchanged)
